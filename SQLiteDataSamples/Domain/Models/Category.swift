@@ -8,10 +8,9 @@
 import Foundation
 import SQLiteData
 
-@Table("plants")
-struct Plant: Identifiable {
-    var id: UUID = .init()
+@Table("categories")
+struct Category: Identifiable {
+    var id: String = UUID().uuidString
     var name: String
-    var isStarred = false
     var deletedAt: Date = .init()
 }

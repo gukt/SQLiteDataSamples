@@ -1,5 +1,5 @@
 //
-//  Plant.swift
+//  PlantCategory.swift
 //  SQLiteDataSamples
 //
 //  Created by Gu Kaitong  on 2026/3/7.
@@ -8,12 +8,10 @@
 import Foundation
 import SQLiteData
 
-@Table("plants")
-struct Plant: Identifiable {
+@Table("plant_category_relations")
+struct PlantCategoryRelation: Identifiable {
     var id: String = UUID().uuidString
-    var name: String
-    var isStarred = false
+    var plantId: String
+    var categoryId: String
     var createdAt: Date = .init()
-    var updatedAt: Date = .init()
-    var deletedAt: Date?
 }
