@@ -100,4 +100,4 @@ private func _migrate(_ database: any DatabaseWriter) throws {
     try migrator.migrate(database)
 }
 
-private let logger = Logger(subsystem: "MyApp", category: "Database")
+private nonisolated let logger = Logger(subsystem: "MyApp", category: "Database")

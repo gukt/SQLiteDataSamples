@@ -16,10 +16,10 @@ enum PreviewData {}
 // MARK: - Categories
 
 extension PreviewData {
-    static let categories: [(name: String)] = [
-        (name: "阳台"),
-        (name: "庭院"),
-        (name: "办公室"),
+    static let categories = [
+        Category(name: "阳台"),
+        Category(name: "庭院"),
+        Category(name: "办公室")
     ]
 }
 

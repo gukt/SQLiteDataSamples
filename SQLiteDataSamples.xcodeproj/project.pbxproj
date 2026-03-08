@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2548ADD32F5BD95600DFCB9B /* SQLiteData in Frameworks */ = {isa = PBXBuildFile; productRef = 2548ADD22F5BD95600DFCB9B /* SQLiteData */; };
+		2548B06F2F5C608600DFCB9B /* ULID in Frameworks */ = {isa = PBXBuildFile; productRef = 2548B06E2F5C608600DFCB9B /* ULID */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2548B06F2F5C608600DFCB9B /* ULID in Frameworks */,
 				2548ADD32F5BD95600DFCB9B /* SQLiteData in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +120,7 @@
 			name = SQLiteDataSamples;
 			packageProductDependencies = (
 				2548ADD22F5BD95600DFCB9B /* SQLiteData */,
+				2548B06E2F5C608600DFCB9B /* ULID */,
 			);
 			productName = SQLiteDataSamples;
 			productReference = 2548ADA22F5BD14300DFCB9B /* SQLiteDataSamples.app */;
@@ -203,6 +206,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				2548ADD12F5BD95600DFCB9B /* XCRemoteSwiftPackageReference "sqlite-data" */,
+				2548B06D2F5C608600DFCB9B /* XCRemoteSwiftPackageReference "ULID" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2548ADA32F5BD14300DFCB9B /* Products */;
@@ -599,6 +603,14 @@
 				minimumVersion = 1.6.0;
 			};
 		};
+		2548B06D2F5C608600DFCB9B /* XCRemoteSwiftPackageReference "ULID" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yaslab/ULID.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -606,6 +618,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2548ADD12F5BD95600DFCB9B /* XCRemoteSwiftPackageReference "sqlite-data" */;
 			productName = SQLiteData;
+		};
+		2548B06E2F5C608600DFCB9B /* ULID */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2548B06D2F5C608600DFCB9B /* XCRemoteSwiftPackageReference "ULID" */;
+			productName = ULID;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

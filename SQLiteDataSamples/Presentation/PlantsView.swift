@@ -9,7 +9,7 @@ import SQLiteData
 import SwiftUI
 
 struct PlantsView: View {
-    @FetchAll(Plant.where(\.isStarred).order(by: \.name))
+    @FetchAll(Plant.notDeleted.where(\.isStarred).order(by: \.name))
     var plants: [Plant]
 
     @FetchAll(
@@ -34,6 +34,7 @@ struct PlantsView: View {
                 List(plants2) { plant in
                     HStack {
                         Text(plant.name)
+
                         if plant.isStarred {
                             Image(systemName: "star.fill")
                                 .foregroundStyle(.yellow)
@@ -42,36 +43,10 @@ struct PlantsView: View {
                 }
             }
         }
-
-//        LazyVStack {
-        ////                Toggle(isOn: $showingStarred) {
-        ////                    Label("星标", systemImage: "star")
-        ////                }
-//
-//            List(plants) { plant in
-//                HStack {
-//                    Text(plant.name)
-//                    if plant.isStarred {
-//                        Image(systemName: "star.fill")
-//                            .foregroundStyle(.yellow)
-//                    }
-//                }
-//
-//                Section("Categories") {
-//                    ForEach(viewModel.categories) { category in
-//                        Text(category.name)
-//                    }
-//                }
-//            }
-//        }
     }
 }
 
 #Preview {
-    prepareDependencies {
-        $0.defaultDatabase = try! appDatabase()
-        try! $0.defaultDatabase.seed()
-    }
-
-    return PlantsView()
+    setupPreviewEnvironment()
+    PlantsView()
 }

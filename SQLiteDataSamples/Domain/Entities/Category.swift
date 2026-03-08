@@ -7,12 +7,14 @@
 
 import Foundation
 import SQLiteData
+import ULID
 
-@Table("plants")
-struct Plant: Identifiable {
-    var id: String = UUID().uuidString
+@Table("categories")
+struct Category: BaseEntity {
+    var id: String = ULID().ulidString
     var name: String
-    var isStarred = false
+
+    // Auditable + SoftDeletable
     var createdAt: Date = .init()
     var updatedAt: Date = .init()
     var deletedAt: Date?

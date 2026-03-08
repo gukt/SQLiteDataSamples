@@ -1,5 +1,5 @@
 {
-  "originHash" : "130d05245aea3960ed03127f98bd3b813aab3863c5261e4020b40eb159b45846",
+  "originHash" : "f6df4953e84c4e4bded0b57bda83bb71fc7ba0647c0492d0d7c41d03f287df8e",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -125,6 +125,15 @@
       "state" : {
         "revision" : "4799286537280063c85a32f09884cfbca301b1a1",
         "version" : "602.0.0"
+      }
+    },
+    {
+      "identity" : "ulid.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yaslab/ULID.swift",
+      "state" : {
+        "revision" : "e21933de8ac3e8ba9e83aa71956cd27206eec6b9",
+        "version" : "1.3.1"
       }
     },
     {

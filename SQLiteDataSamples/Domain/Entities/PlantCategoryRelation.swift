@@ -7,11 +7,12 @@
 
 import Foundation
 import SQLiteData
+import ULID
 
 @Table("plant_category_relations")
 struct PlantCategoryRelation: Identifiable {
-    var id: String = UUID().uuidString
-    var plantId: String
-    var categoryId: String
+    var id: String = ULID().ulidString
+    var plantId: Plant.ID
+    var categoryId: Category.ID
     var createdAt: Date = .init()
 }

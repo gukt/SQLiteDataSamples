@@ -8,38 +8,33 @@
 import SQLiteData
 import SwiftUI
 
+private func _getPlantId(byName name: String) -> Plant.ID? {
+    return PreviewData.plants.first { $0.name == name }?.id
+}
+
+private func _getCategoryId(byName name: String) -> Category.ID? {
+    return PreviewData.categories.first { $0.name == name }?.id
+}
+
 extension DatabaseWriter {
     func seed() throws {
         try write { db in
             // Seed categories
-            var categoryMap: [String: String] = [:]
             for category in PreviewData.categories {
-                let insertedCategory = try Category.insert {
-                    Category(name: category.name)
-                }
-                .returning()
-                .execute(db)
-                categoryMap[insertedCategory.name] = insertedCategory.id.uuidString
+                try Category.insert { category }
+                    .execute(db)
             }
 
             // Seed plants
-            var plantMap: [String: String] = [:]
             for plant in PreviewData.plants {
-                let insertedPlant = try Plant.insert {
-                    Plant(name: plant.name, isStarred: plant.isStarred)
-                }
-                .returning()
-                .execute(db)
-                plantMap[insertedPlant.name] = insertedPlant.id
+                try Plant.insert { plant }.execute(db)
             }
 
             // Seed plant-category relations
             for (categoryName, plantNames) in PreviewData.plantCategoryRelations {
-                guard let categoryId = categoryMap[categoryName] else { continue }
-                
+                guard let categoryId = _getCategoryId(byName: categoryName) else { continue }
                 for plantName in plantNames {
-                    guard let plantId = plantMap[plantName] else { continue }
-                    
+                    guard let plantId = _getPlantId(byName: plantName) else { continue }
                     try PlantCategoryRelation.insert {
                         PlantCategoryRelation(plantId: plantId, categoryId: categoryId)
                     }
@@ -50,9 +45,13 @@ extension DatabaseWriter {
     }
 }
 
-@ViewBuilder
+@discardableResult
 func setupPreviewEnvironment() -> EmptyView {
-    // TODO: seed here
+    // Prepare database and seed
+    prepareDependencies {
+        $0.defaultDatabase = try! appDatabase()
+        try! $0.defaultDatabase.seed()
+    }
 
     return EmptyView()
 }
