@@ -41,6 +41,16 @@ extension DatabaseWriter {
                     .execute(db)
                 }
             }
+
+            // Seed care actions
+            for careAction in PreviewData.careActions {
+                try CareAction.insert { careAction }.execute(db)
+            }
+
+            // Seed plant care records
+            for plantCareRecord in PreviewData.plantCareRecords {
+                try PlantCareRecord.insert { plantCareRecord }.execute(db)
+            }
         }
     }
 }

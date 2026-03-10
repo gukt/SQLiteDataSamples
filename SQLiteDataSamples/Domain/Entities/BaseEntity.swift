@@ -41,6 +41,7 @@ protocol SoftDeletable {
 
 /// 软删除协议扩展，提供 isDeleted 计算属性的默认实现
 extension SoftDeletable {
+    /// 是否已删除
     var isDeleted: Bool {
         deletedAt != nil
     }
@@ -64,19 +65,11 @@ protocol Sortable {
     var sortOrder: Int { get set }
 }
 
-// MARK: - EntityIdentifiable
-
-/// 基础标识协议，提供唯一标识符
-/// 所有领域模型都必须有唯一标识符
-protocol EntityIdentifiable: Identifiable {
-    var id: String { get set }
-}
-
 // MARK: - BaseEntity
 
 /// 完整的领域实体类型
 /// 组合了 ID 标识、审计和软删除能力
-protocol BaseEntity: EntityIdentifiable, Auditable, SoftDeletable, Hashable {
+protocol BaseEntity: Identifiable, Auditable, SoftDeletable, Hashable {
     // 空协议，只做组合
     // 将来可以在这里添加额外要求
 }
@@ -98,7 +91,7 @@ extension BaseEntity {
     }
 }
 
-extension BaseEntity {
+extension BaseEntity where Self.ID == String {
     /// 验证实体有效性
     func validate() throws {
         guard !id.isEmpty else {
@@ -124,25 +117,14 @@ extension BaseEntity {
     /// 软删除并更新时间戳
     mutating func softDelete() {
         // 标记为已删除
-        // 因为 BaseEntity 遵循 SoftDeletable 协议
         markAsDeleted()
-        
+
         // 更新时间戳
         touch()
     }
 }
 
 extension BaseEntity {
-    mutating func prepareForInsert() {
-        let now = Date()
-        createdAt = now
-        updatedAt = now
-    }
-
-    mutating func prepareForUpdate() {
-        touch()
-    }
-
     /// 准备保存前的处理
     mutating func prepareForSave(isNew: Bool = false) {
         if isNew {

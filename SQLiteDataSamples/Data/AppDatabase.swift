@@ -18,8 +18,13 @@ func appDatabase() throws -> any DatabaseWriter {
     @Dependency(\.context) var context
     var configuration = Configuration()
 
-    #if DEBUG
+    
     configuration.prepareDatabase { db in
+        // 启用外键约束
+        // 注意：SQLite 默认不启用外键约束，需要显式启用
+        try db.execute(sql: "PRAGMA foreign_keys = ON")
+
+        #if DEBUG
         db.trace(options: .profile) {
             if context == .preview {
                 // 打印跟踪事件的描述，其中绑定参数已展开
@@ -28,8 +33,9 @@ func appDatabase() throws -> any DatabaseWriter {
                 logger.debug("\($0.expandedDescription)")
             }
         }
+        #endif
     }
-    #endif
+    
 
     // 创建数据库连接
     let database = try defaultDatabase(configuration: configuration)
@@ -68,6 +74,8 @@ private func _migrate(_ database: any DatabaseWriter) throws {
         CREATE TABLE "categories" (
             id TEXT PRIMARY KEY NOT NULL,
             name TEXT NOT NULL,
+            createdAt TEXT,
+            updatedAt TEXT,
             deletedAt TEXT
         ) STRICT
         """)
@@ -87,13 +95,44 @@ private func _migrate(_ database: any DatabaseWriter) throws {
         .execute(db)
 
         // 为关系表创建索引以提高查询性能
+        // 由于可能会用 plantId 检索所属分类，也可能通过 categoryId 检索所有的植物，
+        // 所以分开创建索引，而非使用联合索引。
         try #sql("""
-        CREATE INDEX idx_plant_category_relations_plantId ON plant_category_relations(plantId)
+        CREATE INDEX idx_plantId ON plant_category_relations(plantId)
         """)
         .execute(db)
 
         try #sql("""
-        CREATE INDEX idx_plant_category_relations_categoryId ON plant_category_relations(categoryId)
+        CREATE INDEX idx_categoryId ON plant_category_relations(categoryId)
+        """)
+        .execute(db)
+
+        // 创建养护行为表
+        try #sql("""
+        CREATE TABLE "care_actions" (
+            id TEXT PRIMARY KEY NOT NULL,
+            name TEXT NOT NULL,
+            icon TEXT,
+            sortOrder INTEGER NOT NULL DEFAULT 0,
+            createdAt TEXT,
+            updatedAt TEXT,
+            deletedAt TEXT
+        ) STRICT
+        """)
+        .execute(db)
+
+        // 创建养护记录表
+        try #sql("""
+        CREATE TABLE "plant_care_records" (
+            id TEXT PRIMARY KEY NOT NULL,
+            plantId TEXT NOT NULL,
+            careActionId TEXT NOT NULL,
+            performedAt TEXT NOT NULL,
+            note TEXT,
+            createdAt TEXT,
+            updatedAt TEXT,
+            deletedAt TEXT
+        ) STRICT
         """)
         .execute(db)
     }

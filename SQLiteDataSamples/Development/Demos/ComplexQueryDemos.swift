@@ -10,16 +10,10 @@ import SwiftUI
 
 struct ComplexQueryDemos1: View {
     // SELECT "categories"."id", "categories"."name", "categories"."deletedAt" FROM "categories" GROUP BY "categories"."id"
-    @FetchAll(
-        Category
-            .group(by: \.id)
-    )
+    @FetchAll(Category .group(by: \.id) )
     private var items
     
-    @FetchAll(
-        Plant.all
-            .select(\.id)
-    )
+    @FetchAll(Plant.all.select(\.id) )
     private var bbb
     
     var body: some View {

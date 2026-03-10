@@ -19,3 +19,7 @@ struct Category: BaseEntity {
     var updatedAt: Date = .init()
     var deletedAt: Date?
 }
+
+extension Category {
+    static let notDeleted = Self.where { $0.deletedAt.is(nil) }
+}

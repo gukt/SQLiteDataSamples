@@ -21,6 +21,8 @@ extension PreviewData {
         Category(name: "庭院"),
         Category(name: "办公室")
     ]
+
+    static let defaultCategory = categories[0]
 }
 
 // MARK: - Plant Category Relations
@@ -38,7 +40,7 @@ extension PreviewData {
 // MARK: - Plants
 
 extension PreviewData {
-    static let plants: [Plant] = [
+    static let plants = [
         Plant(
             name: "吊兰",
             isStarred: true,
@@ -95,6 +97,50 @@ extension PreviewData {
             name: "白掌",
             createdAt: 9.days.ago,
             updatedAt: 9.days.ago
+        ),
+    ]
+
+    static let defaultPlant = plants[0]
+}
+
+// MARK: - Care Actions
+
+extension PreviewData {
+    static let careActions: [CareAction] = [
+        CareAction(name: "浇水", icon: "water"),
+        CareAction(name: "施肥", icon: "fertilizer"),
+        CareAction(name: "修剪", icon: "prune"),
+        CareAction(name: "换盆", icon: "pot"),
+    ]
+}
+
+// MARK: - Plant Care Records
+
+extension PreviewData {
+    static let plantCareRecords: [PlantCareRecord] = [
+        PlantCareRecord(
+            plantId: PreviewData.defaultPlant.id, 
+            careActionId: PreviewData.careActions[0].id, 
+            performedAt: Date(),
+            note: "今天浇了水，浇了半桶水"
+        ),
+        PlantCareRecord(
+            plantId: PreviewData.defaultPlant.id, 
+            careActionId: PreviewData.careActions[1].id, 
+            performedAt: Date(),
+            note: "施了 10 克有机肥"
+        ),
+        PlantCareRecord(
+            plantId: PreviewData.defaultPlant.id, 
+            careActionId: PreviewData.careActions[2].id, 
+            performedAt: Date(),
+            note: "把枯叶剪掉了"
+        ),
+        PlantCareRecord(
+            plantId: PreviewData.defaultPlant.id, 
+            careActionId: PreviewData.careActions[3].id, 
+            performedAt: Date(),
+            note: "换了盆，换了新的盆土"
         ),
     ]
 }
